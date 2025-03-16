@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    username: postgres
+    password: 12345
+    url: jdbc:postgresql://localhost:5432/checkers-simulator
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: false
+logging:
+  level:
+    com.jereczek.checkers: trace
+    org:
+      springframework:
+        security: DEBUG

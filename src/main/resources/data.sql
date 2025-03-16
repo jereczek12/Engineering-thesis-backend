@@ -1,0 +1,2 @@
+MERGE INTO player (id_player, password, username) VALUES ('11111111-1111-1111-1111-111111111111', null, 'CPU');
+MERGE INTO player (id_player, password, username) VALUES ('22222222-2222-2222-2222-222222222222', '$2a$10$1FA6IYDMCHGY7QbuZj0JGOSl5cP0LJAAGNMLdrTVCkgCoY6THdmHq', 'user1');
