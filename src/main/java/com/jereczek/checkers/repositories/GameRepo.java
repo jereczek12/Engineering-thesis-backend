@@ -11,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 import java.sql.Timestamp;
 import java.util.UUID;
 
-public interface IGameRepo extends JpaRepository<GameEntity, String> {
+public interface GameRepo extends JpaRepository<GameEntity, String> {
     @Query("SELECT g FROM GameEntity g WHERE g.player1.playerID != :uuid" +
             " AND g.player2 IS NULL" +
             " AND g.gameStatus = :gameStatus" +

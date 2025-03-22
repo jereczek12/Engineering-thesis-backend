@@ -1,8 +1,8 @@
 package com.jereczek.checkers.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jereczek.checkers.model.players.PlayerHuman;
-import com.jereczek.checkers.repositories.IPlayerRepo;
+import com.jereczek.checkers.model.players.PlayerEntity;
+import com.jereczek.checkers.repositories.PlayerRepo;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -16,12 +16,12 @@ import java.io.IOException;
 @RequiredArgsConstructor
 @Component
 public class PlayerAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
-    private final IPlayerRepo playerRepo;
+    private final PlayerRepo playerRepo;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         User user = (User) authentication.getPrincipal();
-        PlayerHuman player = playerRepo.findByUsername(user.getUsername());
+        PlayerEntity player = playerRepo.findByUsername(user.getUsername());
         response.getWriter().write(new ObjectMapper().writeValueAsString(player));
     }
 }

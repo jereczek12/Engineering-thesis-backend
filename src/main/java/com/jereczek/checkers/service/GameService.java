@@ -21,13 +21,13 @@ import com.jereczek.checkers.game.model.board.BoardState;
 import com.jereczek.checkers.model.BoardEntity;
 import com.jereczek.checkers.model.GameData;
 import com.jereczek.checkers.model.GameEntity;
-import com.jereczek.checkers.model.players.PlayerHuman;
+import com.jereczek.checkers.model.players.PlayerEntity;
 import com.jereczek.checkers.movehelper.TipGenerator;
 import com.jereczek.checkers.movehelper.TipModel;
-import com.jereczek.checkers.repositories.IBoardStateRepo;
-import com.jereczek.checkers.repositories.IGameDataRepo;
-import com.jereczek.checkers.repositories.IGameRepo;
-import com.jereczek.checkers.repositories.IPlayerRepo;
+import com.jereczek.checkers.repositories.GameDataRepo;
+import com.jereczek.checkers.repositories.BoardStateRepo;
+import com.jereczek.checkers.repositories.GameRepo;
+import com.jereczek.checkers.repositories.PlayerRepo;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -40,19 +40,19 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static com.jereczek.checkers.enums.PieceTypes.WHITE;
-import static com.jereczek.checkers.model.players.PlayerCPU.CPU_DEFAULT_UUID;
+import static com.jereczek.checkers.model.players.PlayerEntity.CPU_DEFAULT_UUID;
 
 @Slf4j
 @Service
 @Transactional
 public class GameService {
-    private final IGameRepo gameRepo;
+    private final GameRepo gameRepo;
 
-    private final IPlayerRepo playerRepo;
+    private final PlayerRepo playerRepo;
 
-    private final IBoardStateRepo boardStateRepo;
+    private final BoardStateRepo boardStateRepo;
 
-    private final IGameDataRepo gameDataRepo;
+    private final GameDataRepo gameDataRepo;
 
     private final CheckersGameLogic checkersGameLogic;
 
@@ -64,7 +64,7 @@ public class GameService {
 
     private final CheckWinnerService checkWinnerService;
 
-    public GameService(IGameRepo gameRepo, IPlayerRepo playerRepo, IBoardStateRepo boardStateRepo, IGameDataRepo gameDataRepo, CheckersGameLogic checkersGameLogic, MoveGenerator moveGenerator, TipGenerator tipGenerator, MiniMax miniMax, CheckWinnerService checkWinnerService) {
+    public GameService(GameRepo gameRepo, PlayerRepo playerRepo, BoardStateRepo boardStateRepo, GameDataRepo gameDataRepo, CheckersGameLogic checkersGameLogic, MoveGenerator moveGenerator, TipGenerator tipGenerator, MiniMax miniMax, CheckWinnerService checkWinnerService) {
         this.gameRepo = gameRepo;
         this.playerRepo = playerRepo;
         this.boardStateRepo = boardStateRepo;
@@ -77,7 +77,7 @@ public class GameService {
     }
 
     public GameEntity createGame(GameStartDTO startDTO) {
-        PlayerHuman player = playerRepo.findById(UUID.fromString(startDTO.getPlayerID())).get();
+        PlayerEntity player = playerRepo.findById(UUID.fromString(startDTO.getPlayerID())).get();
         BoardEntity boardEntity = BoardMapper.updateEntityFromBoardState(new BoardEntity(), new BoardState());
         boardStateRepo.save(boardEntity);
 
@@ -119,7 +119,7 @@ public class GameService {
         if (!game.isPvpGame()) {
             throw new GameConnectionError("Game is not a pvp game!");
         }
-        PlayerHuman player = playerRepo.findById(UUID.fromString(player2.getPlayerID())).get();
+        PlayerEntity player = playerRepo.findById(UUID.fromString(player2.getPlayerID())).get();
         game.setPlayer2(player);
         game.setGameStatus(GameStatus.IN_PROGRESS);
         gameRepo.save(game);
@@ -127,7 +127,7 @@ public class GameService {
     }
 
     public GameEntity connectToRandomGame(PlayerDTO player2) {
-        PlayerHuman player = playerRepo.findById(UUID.fromString(player2.getPlayerID())).get();
+        PlayerEntity player = playerRepo.findById(UUID.fromString(player2.getPlayerID())).get();
 
         GameEntity game = gameRepo.findOldestForRandomConnectionNotOlderThan3Minutes(GameStatus.NEW, UUID.fromString(player2.getPlayerID()),
                 Timestamp.from(Instant.now().minus(3, ChronoUnit.MINUTES)));

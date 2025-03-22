@@ -1,6 +1,6 @@
 package com.jereczek.checkers.security;
 
-import com.jereczek.checkers.model.players.PlayerHuman;
+import com.jereczek.checkers.model.players.PlayerEntity;
 import com.jereczek.checkers.service.PlayerService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<PlayerHuman> playerHuman = Optional.ofNullable(playerService.findPlayerByUsername(username));
+        Optional<PlayerEntity> playerHuman = Optional.ofNullable(playerService.findPlayerByUsername(username));
         if (playerHuman.isPresent()) {
             return new User(playerHuman.get().getUsername(), playerHuman.get().getPassword(), new ArrayList<>());
         } else {

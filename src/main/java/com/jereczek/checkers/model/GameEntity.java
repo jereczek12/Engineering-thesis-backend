@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.jereczek.checkers.enums.GameStatus;
 import com.jereczek.checkers.enums.PieceTypes;
-import com.jereczek.checkers.model.players.PlayerHuman;
+import com.jereczek.checkers.model.players.PlayerEntity;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -29,11 +29,11 @@ public class GameEntity {
 
     @ManyToOne
     @JoinColumn(name = "player_one", nullable = false)
-    private PlayerHuman player1;
+    private PlayerEntity player1;
 
     @ManyToOne
     @JoinColumn(name = "player_two")
-    private PlayerHuman player2;
+    private PlayerEntity player2;
 
     @OneToOne
     @JoinColumn(name = "board")

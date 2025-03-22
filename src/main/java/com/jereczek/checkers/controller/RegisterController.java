@@ -1,6 +1,6 @@
 package com.jereczek.checkers.controller;
 
-import com.jereczek.checkers.model.players.PlayerHuman;
+import com.jereczek.checkers.model.players.PlayerEntity;
 import com.jereczek.checkers.service.PlayerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -14,8 +14,8 @@ public class RegisterController {
     private final PlayerService playerService;
 
     @PostMapping
-    public ResponseEntity<?> registerPlayer(@RequestBody PlayerHuman playerHuman) {
-        playerService.registerNewPlayer(playerHuman);
+    public ResponseEntity<?> registerPlayer(@RequestBody PlayerEntity playerEntity) {
+        playerService.registerNewPlayer(playerEntity);
         return ResponseEntity.ok("Player registered successfully");
     }
 }

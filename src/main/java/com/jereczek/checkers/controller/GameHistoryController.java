@@ -2,8 +2,8 @@ package com.jereczek.checkers.controller;
 
 import com.jereczek.checkers.controller.dto.GameHistoryDto;
 import com.jereczek.checkers.model.GameEntity;
-import com.jereczek.checkers.model.players.PlayerHuman;
-import com.jereczek.checkers.repositories.IGameRepo;
+import com.jereczek.checkers.model.players.PlayerEntity;
+import com.jereczek.checkers.repositories.GameRepo;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -19,9 +19,9 @@ import java.util.stream.Collectors;
 @CrossOrigin
 @RequestMapping("/history")
 public class GameHistoryController {
-    private final IGameRepo gameRepo;
+    private final GameRepo gameRepo;
 
-    public GameHistoryController(IGameRepo gameRepo) {
+    public GameHistoryController(GameRepo gameRepo) {
         this.gameRepo = gameRepo;
     }
 
@@ -47,7 +47,7 @@ public class GameHistoryController {
     private String getOpponentName(GameEntity game, String playerID) {
         if (game.getPlayer1().getPlayerID().toString().equals(playerID)) {
             return game.isPvpGame() ? Optional.ofNullable(game.getPlayer2())
-                    .map(PlayerHuman::getUsername)
+                    .map(PlayerEntity::getUsername)
                     .orElse("N/A") : "CPU";
         } else {
             return game.getPlayer1().getUsername();

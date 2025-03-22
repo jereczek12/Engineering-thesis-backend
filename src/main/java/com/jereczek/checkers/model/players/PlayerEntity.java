@@ -16,7 +16,9 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class PlayerHuman implements Player {
+public class PlayerEntity {
+    public static final UUID CPU_DEFAULT_UUID = UUID.fromString("11111111-1111-1111-1111-111111111111");
+
     @Transient
     private final PlayerTypes playerType = PlayerTypes.HUMAN;
 
@@ -29,9 +31,4 @@ public class PlayerHuman implements Player {
     private String username;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
-
-    @Override
-    public PlayerTypes getPlayerType() {
-        return playerType;
-    }
 }
